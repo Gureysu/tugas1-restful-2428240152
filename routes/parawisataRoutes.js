@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const parawisataControllers = require('../controllers/parawisataControllers');
+const c = require('../controllers/ParawisataControllers');
 const cekApiKey = require('../middlewares/cekApiKey');
 
-router.get('/', parawisataControllers.getAll);
-router.get('/:id', parawisataControllers.getById);
-router.post('/', cekApiKey, parawisataControllers.create);
-router.put('/:id', cekApiKey, parawisataControllers.update);
-router.delete('/:id', cekApiKey, parawisataControllers.remove);
-
+router.get('/', c.getAll);
+router.get('/:id', c.getById);
+router.post('/', cekApiKey, c.create);
+router.put('/:id', cekApiKey, c.update);
+router.delete('/:id', cekApiKey, c.remove);
 module.exports = router;

@@ -1,36 +1,21 @@
-let Parawisata = [
-    { id: 1, nama: "Kawah Putih", kota: "Bandung", kategori: "alam", hargaTiket: 30000, jamBuka: "07.00-17.00" },
-    { id: 2, nama: "Tangkuban Perahu", kota: "Bandung", kategori: "alam", hargaTiket: 50000, jamBuka: "08.00-16.00" },
-];
-let nextId = 3;
+const mongoose = require('mongoose');
 
-function getAll(kota, kategori) {
-    if (kategori) return Parawisata.filter((p) => p.kategori === kategori);
-    return Parawisata;
-}
+const fasilitasSchema = new mongoose.Schema({
+    Parkir: { type: Boolean, default: false },
+    Musholla: { type: Boolean, default: false },
+    Toilet: { type: Boolean, default: false },
+    Kuliner: { type: Boolean, default: false },
+    ramahDisabilitas: { type: Boolean, default: false }
+}, { _id: false });
 
-function getById(id) {
-    return Parawisata.find((p) => p.id === id);
-}
 
-function create(data) {
-    const baru = { id: nextId++, ...data };
-    Parawisata.push(baru);
-    return baru;
-}
+const parawisataSchema = new mongoose.Schema({
+    nama: { type: String, required: [true, 'nama wajib diisi'], trim: true },
+    kota: { type: String, required: [true, 'kota wajib diisi'], trim: true },
+    kategori: { type: String, required: [true, 'kategori wajib diisi'], trim: true },
+    hargaTiket: { type: Number, required: [true, 'harga tiket wajib diisi'] },
+    jamBuka: { type: String, required: [true, 'jam buka wajib diisi'], trim: true },
+    createdAt: { type: Date, default: Date.now },
+});
 
-function update(id, data) {
-    const index = Parawisata.findIndex((p) => p.id === id);
-    if (index === -1) return null;
-    Parawisata[index] = { ...Parawisata[index], ...data, id };
-    return Parawisata[index];
-}
-
-function remove(id) {
-    const index = Parawisata.findIndex((p) => p.id === id);
-    if (index === -1) return false;
-    Parawisata.splice(index, 1);
-    return true;
-}
-
-module.exports = { getAll, getById, create, update, remove };
+module.exports = mongoose.model('Parawisata', parawisataSchema);
